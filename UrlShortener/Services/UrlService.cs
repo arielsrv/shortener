@@ -1,4 +1,5 @@
 ﻿using Base62;
+using System;
 using System.Threading.Tasks;
 using UrlShortener.Model;
 using UrlShortener.Storage;
@@ -7,6 +8,9 @@ namespace UrlShortener.Services
 {
     public class UrlService : IUrlService
     {
+        /// <summary>
+        /// The key value store
+        /// </summary>
         public IKeyValueStore keyValueStore;
 
         /// <summary>
@@ -22,32 +26,42 @@ namespace UrlShortener.Services
         /// Creates the URL.
         /// </summary>
         /// <param name="createUrlRequest">The create URL request.</param>
-        /// <returns></returns>
+        /// <returns>c:\projects\UrlShortener\UrlShortener\Services\UrlService.cs</returns>
         public async Task<CreateUrlResponse> CreateUrl(CreateUrlRequest createUrlRequest)
         {
             Base62Converter converter = new Base62Converter();
-            
-            string key = converter.Encode(createUrlRequest.Url);
-            CreateUrlResponse createUrlResponse = await this.keyValueStore.Get<CreateUrlResponse>(key);
 
-            if (createUrlResponse != null)
-            {
-                return createUrlResponse;
-            }
+            long id = await this.keyValueStore.GetNewId();
+            string segment = converter.Encode(id.ToString());
 
-            long identifier = await this.keyValueStore.GetId();
-            string segment  = converter.Encode(identifier.ToString());
-
-            createUrlResponse = new CreateUrlResponse
+            CreateUrlResponse createUrlResponse = new CreateUrlResponse
             {
                 Id = segment,
                 LongUrl = createUrlRequest.Url,
                 ShortUrl = "http://localhost:44332/" + segment
             };
 
-            await this.keyValueStore.Add(key, createUrlResponse);
+            await this.keyValueStore.Add(segment, createUrlResponse);
 
             return createUrlResponse;
+        }
+
+        /// <summary>
+        /// Redirects to original URL.
+        /// </summary>
+        /// <param name="shortUrl"></param>
+        /// <returns></returns>
+        /// <exception cref="ApplicationException"></exception>
+        public async Task<string> GetLongUrl(string shortUrl)
+        {
+            CreateUrlResponse createUrlResponse = await this.keyValueStore.Get<CreateUrlResponse>(shortUrl);
+
+            if (createUrlResponse == null)
+            {
+                throw new ApplicationException();
+            }
+
+            return createUrlResponse.LongUrl;
         }
     }
 }

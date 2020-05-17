@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using UrlShortener.Model;
 using UrlShortener.Services;
 
 namespace UrlShortener.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class UrlController : ControllerBase
+    public class RedirectController : ControllerBase
     {
         /// <summary>
         /// The URL service
@@ -18,20 +16,22 @@ namespace UrlShortener.Controllers
         /// Initializes a new instance of the <see cref="UrlController"/> class.
         /// </summary>
         /// <param name="urlService">The URL service.</param>
-        public UrlController(IUrlService urlService)
+        public RedirectController(IUrlService urlService)
         {
             this.urlService = urlService;
         }
 
         /// <summary>
-        /// Creates the URL.
+        /// Redirects to.
         /// </summary>
-        /// <param name="createUrlRequest">The create URL request.</param>
+        /// <param name="url">The URL.</param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<ActionResult<CreateUrlResponse>> CreateUrl([FromBody] CreateUrlRequest createUrlRequest)
+        [HttpGet]
+        [Route("/{url}")]
+        public async Task<RedirectResult> RedirectTo(string url)
         {
-            return await this.urlService.CreateUrl(createUrlRequest);
+            string longUrl = await this.urlService.GetLongUrl(url);
+            return new RedirectResult(longUrl);
         }
     }
 }

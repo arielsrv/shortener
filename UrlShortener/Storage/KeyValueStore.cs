@@ -53,6 +53,17 @@ namespace UrlShortener.Storage
         {
             return await this.redisCacheClient
                 .GetDbFromConfiguration()
+                .HashGetAsync<long>("url:id", "url:id");
+        }
+
+        /// <summary>
+        /// Gets the identifier.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<long> GetNewId()
+        {
+            return await this.redisCacheClient
+                .GetDbFromConfiguration()
                 .HashIncerementByAsync("url:id", "url:id", 1L);
         }
     }

@@ -8,6 +8,12 @@ namespace UrlShortener.Storage
         /// Gets the identifier.
         /// </summary>
         /// <returns></returns>
+        Task<long> GetNewId();
+
+        /// <summary>
+        /// Gets the identifier.
+        /// </summary>
+        /// <returns></returns>
         Task<long> GetId();
 
         /// <summary>

@@ -45,7 +45,7 @@ namespace UrlShortener
             {
                 config.SwaggerDoc("v1", new OpenApiInfo { Title = "URLShortener API", Version = "v1" });
             });
-            
+
             AddServices(services);
         }
 

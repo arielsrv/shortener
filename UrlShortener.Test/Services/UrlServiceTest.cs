@@ -9,8 +9,14 @@ namespace UrlShortener.Test.Services
 {
     public class UrlServiceTest
     {
+        /// <summary>
+        /// The URL service
+        /// </summary>
         private UrlService urlService;
 
+        /// <summary>
+        /// Sets up.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
@@ -18,6 +24,9 @@ namespace UrlShortener.Test.Services
             this.urlService = new UrlService(keyValueStore.Object);
         }
 
+        /// <summary>
+        /// Creates the short URL.
+        /// </summary>
         [Test]
         public void Create_Short_Url()
         {
@@ -27,7 +36,7 @@ namespace UrlShortener.Test.Services
             };
 
             Mock.Get(this.urlService.keyValueStore)
-                .Setup(behavior => behavior.GetId())
+                .Setup(behavior => behavior.GetNewId())
                 .Returns(Task.FromResult(1L));
 
             Task<CreateUrlResponse> awaitable = this.urlService.CreateUrl(createUrlRequest);
@@ -37,6 +46,7 @@ namespace UrlShortener.Test.Services
             Assert.NotNull(createUrlResponse);
             Assert.AreEqual("n", createUrlResponse.Id);
             Assert.AreEqual("http://localhost:44332/n", createUrlResponse.ShortUrl);
+            Assert.AreEqual("a", createUrlResponse.LongUrl);
         }
     }
 }
