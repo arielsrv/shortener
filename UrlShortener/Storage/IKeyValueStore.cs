@@ -2,6 +2,9 @@
 
 namespace UrlShortener.Storage
 {
+    /// <summary>
+    /// Key Value Store interface
+    /// </summary>
     public interface IKeyValueStore
     {
         /// <summary>
@@ -9,12 +12,6 @@ namespace UrlShortener.Storage
         /// </summary>
         /// <returns></returns>
         Task<long> GetNewId();
-
-        /// <summary>
-        /// Gets the identifier.
-        /// </summary>
-        /// <returns></returns>
-        Task<long> GetId();
 
         /// <summary>
         /// Gets the specified key.

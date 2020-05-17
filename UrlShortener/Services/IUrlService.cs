@@ -12,10 +12,11 @@ namespace UrlShortener.Services
         /// <returns></returns>
         Task<CreateUrlResponse> CreateUrl(CreateUrlRequest createUrlRequest);
 
+
         /// <summary>
-        /// Redirects to original URL.
+        /// Gets the long URL.
         /// </summary>
-        /// <param name="url">The URL.</param>
+        /// <param name="shortUrl">The short URL.</param>
         /// <returns></returns>
         Task<string> GetLongUrl(string shortUrl);
     }

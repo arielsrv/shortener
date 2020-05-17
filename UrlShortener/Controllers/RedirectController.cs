@@ -4,6 +4,10 @@ using UrlShortener.Services;
 
 namespace UrlShortener.Controllers
 {
+    /// <summary>
+    /// Redirect to Original Url.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [ApiController]
     public class RedirectController : ControllerBase
     {

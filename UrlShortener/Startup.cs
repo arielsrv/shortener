@@ -10,6 +10,9 @@ using StackExchange.Redis.Extensions.Core.Abstractions;
 using StackExchange.Redis.Extensions.Core.Configuration;
 using StackExchange.Redis.Extensions.Core.Implementations;
 using StackExchange.Redis.Extensions.Newtonsoft;
+using System;
+using System.IO;
+using System.Reflection;
 using UrlShortener.Services;
 using UrlShortener.Storage;
 using static Newtonsoft.Json.NullValueHandling;
@@ -37,6 +40,10 @@ namespace UrlShortener
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// Configures the services.
+        /// </summary>
+        /// <param name="services">The services.</param>
         public static void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
@@ -44,11 +51,16 @@ namespace UrlShortener
             services.AddSwaggerGen(config =>
             {
                 config.SwaggerDoc("v1", new OpenApiInfo { Title = "URLShortener API", Version = "v1" });
+                config.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
             });
 
             AddServices(services);
         }
 
+        /// <summary>
+        /// Adds the services.
+        /// </summary>
+        /// <param name="services">The services.</param>
         private static void AddServices(IServiceCollection services)
         {
             services.AddSingleton<ISerializer>(service => new NewtonsoftSerializer(new JsonSerializerSettings
@@ -117,7 +129,7 @@ namespace UrlShortener
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {
+            {                
                 endpoints.MapControllers();
             });
         }

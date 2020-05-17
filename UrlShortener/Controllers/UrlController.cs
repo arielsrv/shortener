@@ -5,6 +5,10 @@ using UrlShortener.Services;
 
 namespace UrlShortener.Controllers
 {
+    /// <summary>
+    /// Create Url  
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [ApiController]
     [Route("[controller]")]
     public class UrlController : ControllerBase

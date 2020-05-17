@@ -3,6 +3,10 @@ using System.Threading.Tasks;
 
 namespace UrlShortener.Storage
 {
+    /// <summary>
+    /// Key Value Store
+    /// </summary>
+    /// <seealso cref="UrlShortener.Storage.IKeyValueStore" />
     public class KeyValueStore : IKeyValueStore
     {
         /// <summary>
@@ -45,16 +49,7 @@ namespace UrlShortener.Storage
                 .GetAsync<T>(key);
         }
 
-        /// <summary>
-        /// Gets the identifier.
-        /// </summary>
-        /// <returns></returns>
-        public async Task<long> GetId()
-        {
-            return await this.redisCacheClient
-                .GetDbFromConfiguration()
-                .HashGetAsync<long>("url:id", "url:id");
-        }
+
 
         /// <summary>
         /// Gets the identifier.

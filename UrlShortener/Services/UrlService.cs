@@ -1,6 +1,7 @@
 ﻿using Base62;
 using System;
 using System.Threading.Tasks;
+using UrlShortener.Exceptions;
 using UrlShortener.Model;
 using UrlShortener.Storage;
 
@@ -26,7 +27,7 @@ namespace UrlShortener.Services
         /// Creates the URL.
         /// </summary>
         /// <param name="createUrlRequest">The create URL request.</param>
-        /// <returns>c:\projects\UrlShortener\UrlShortener\Services\UrlService.cs</returns>
+        /// <returns></returns>
         public async Task<CreateUrlResponse> CreateUrl(CreateUrlRequest createUrlRequest)
         {
             Base62Converter converter = new Base62Converter();
@@ -58,7 +59,7 @@ namespace UrlShortener.Services
 
             if (createUrlResponse == null)
             {
-                throw new ApplicationException();
+                throw new ApiNotFoundException(shortUrl);
             }
 
             return createUrlResponse.LongUrl;

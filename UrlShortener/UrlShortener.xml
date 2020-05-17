@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UrlShortener</name>
+    </assembly>
+    <members>
+        <member name="T:UrlShortener.Controllers.RedirectController">
+            <summary>
+            Redirect to Original Url.
+            </summary>
+            <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
+        </member>
+        <member name="F:UrlShortener.Controllers.RedirectController.urlService">
+            <summary>
+            The URL service
+            </summary>
+        </member>
+        <member name="M:UrlShortener.Controllers.RedirectController.#ctor(UrlShortener.Services.IUrlService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UrlShortener.Controllers.UrlController"/> class.
+            </summary>
+            <param name="urlService">The URL service.</param>
+        </member>
+        <member name="M:UrlShortener.Controllers.RedirectController.RedirectTo(System.String)">
+            <summary>
+            Redirects to.
+            </summary>
+            <param name="url">The URL.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UrlShortener.Controllers.UrlController">
+            <summary>
+            Create Url  
+            </summary>
+            <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
+        </member>
+        <member name="F:UrlShortener.Controllers.UrlController.urlService">
+            <summary>
+            The URL service
+            </summary>
+        </member>
+        <member name="M:UrlShortener.Controllers.UrlController.#ctor(UrlShortener.Services.IUrlService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UrlShortener.Controllers.UrlController"/> class.
+            </summary>
+            <param name="urlService">The URL service.</param>
+        </member>
+        <member name="M:UrlShortener.Controllers.UrlController.CreateUrl(UrlShortener.Model.CreateUrlRequest)">
+            <summary>
+            Creates the URL.
+            </summary>
+            <param name="createUrlRequest">The create URL request.</param>
+            <returns></returns>
+        </member>
+        <member name="T:UrlShortener.Exceptions.ApiNotFoundException">
+            <summary>
+            Not Found
+            </summary>
+            <seealso cref="T:System.ApplicationException" />
+        </member>
+        <member name="M:UrlShortener.Exceptions.ApiNotFoundException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UrlShortener.Exceptions.ApiNotFoundException"/> class.
+            </summary>
+            <param name="message">A message that describes the error.</param>
+        </member>
+        <member name="M:UrlShortener.Exceptions.ApiNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UrlShortener.Exceptions.ApiNotFoundException"/> class.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception. If the <paramref name="innerException" /> parameter is not a null reference, the current exception is raised in a <see langword="catch" /> block that handles the inner exception.</param>
+        </member>
+        <member name="P:UrlShortener.Model.CreateUrlRequest.Url">
+            <summary>
+            Gets or sets the URL.
+            </summary>
+            <value>
+            The URL.
+            </value>
+        </member>
+        <member name="P:UrlShortener.Model.CreateUrlResponse.Id">
+            <summary>
+            Gets or sets the identifier.
+            </summary>
+            <value>
+            The identifier.
+            </value>
+        </member>
+        <member name="P:UrlShortener.Model.CreateUrlResponse.ShortUrl">
+            <summary>
+            Gets or sets the short URL.
+            </summary>
+            <value>
+            The short URL.
+            </value>
+        </member>
+        <member name="P:UrlShortener.Model.CreateUrlResponse.LongUrl">
+            <summary>
+            Gets or sets the original URL.
+            </summary>
+            <value>
+            The original URL.
+            </value>
+        </member>
+        <member name="M:UrlShortener.Program.Main(System.String[])">
+            <summary>
+            Defines the entry point of the application.
+            </summary>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="M:UrlShortener.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Creates the host builder.
+            </summary>
+            <param name="args">The arguments.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UrlShortener.Services.IUrlService.CreateUrl(UrlShortener.Model.CreateUrlRequest)">
+            <summary>
+            Creates the URL.
+            </summary>
+            <param name="createUrlRequest">The create URL request.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UrlShortener.Services.IUrlService.GetLongUrl(System.String)">
+            <summary>
+            Gets the long URL.
+            </summary>
+            <param name="shortUrl">The short URL.</param>
+            <returns></returns>
+        </member>
+        <member name="F:UrlShortener.Services.UrlService.keyValueStore">
+            <summary>
+            The key value store
+            </summary>
+        </member>
+        <member name="M:UrlShortener.Services.UrlService.#ctor(UrlShortener.Storage.IKeyValueStore)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UrlShortener.Services.UrlService"/> class.
+            </summary>
+            <param name="keyValueStore">The key value store.</param>
+        </member>
+        <member name="M:UrlShortener.Services.UrlService.CreateUrl(UrlShortener.Model.CreateUrlRequest)">
+            <summary>
+            Creates the URL.
+            </summary>
+            <param name="createUrlRequest">The create URL request.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UrlShortener.Services.UrlService.GetLongUrl(System.String)">
+            <summary>
+            Redirects to original URL.
+            </summary>
+            <param name="shortUrl"></param>
+            <returns></returns>
+            <exception cref="T:System.ApplicationException"></exception>
+        </member>
+        <member name="M:UrlShortener.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UrlShortener.Startup"/> class.
+            </summary>
+            <param name="configuration">The configuration.</param>
+        </member>
+        <member name="P:UrlShortener.Startup.Configuration">
+            <summary>
+            Gets the configuration.
+            </summary>
+            <value>
+            The configuration.
+            </value>
+        </member>
+        <member name="M:UrlShortener.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures the services.
+            </summary>
+            <param name="services">The services.</param>
+        </member>
+        <member name="M:UrlShortener.Startup.AddServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds the services.
+            </summary>
+            <param name="services">The services.</param>
+        </member>
+        <member name="M:UrlShortener.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Configures the specified application.
+            </summary>
+            <param name="app">The application.</param>
+            <param name="env">The env.</param>
+        </member>
+        <member name="M:UrlShortener.Storage.IKeyValueStore.GetNewId">
+            <summary>
+            Gets the identifier.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:UrlShortener.Storage.IKeyValueStore.Get``1(System.String)">
+            <summary>
+            Gets the specified key.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UrlShortener.Storage.IKeyValueStore.Add``1(System.String,``0)">
+            <summary>
+            Adds the specified key.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="F:UrlShortener.Storage.KeyValueStore.redisCacheClient">
+            <summary>
+            The redis cache client
+            </summary>
+        </member>
+        <member name="M:UrlShortener.Storage.KeyValueStore.#ctor(StackExchange.Redis.Extensions.Core.Abstractions.IRedisCacheClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:UrlShortener.Storage.KeyValueStore"/> class.
+            </summary>
+        </member>
+        <member name="M:UrlShortener.Storage.KeyValueStore.Add``1(System.String,``0)">
+            <summary>
+            Adds the specified key.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UrlShortener.Storage.KeyValueStore.Get``1(System.String)">
+            <summary>
+            Gets the specified key.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UrlShortener.Storage.KeyValueStore.GetNewId">
+            <summary>
+            Gets the identifier.
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
