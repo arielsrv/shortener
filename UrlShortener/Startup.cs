@@ -4,8 +4,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using StackExchange.Redis.Extensions.Core;
+using StackExchange.Redis.Extensions.Core.Abstractions;
+using StackExchange.Redis.Extensions.Core.Configuration;
+using StackExchange.Redis.Extensions.Core.Implementations;
+using StackExchange.Redis.Extensions.Newtonsoft;
 using UrlShortener.Services;
 using UrlShortener.Storage;
+using static Newtonsoft.Json.NullValueHandling;
+using static Newtonsoft.Json.TypeNameHandling;
 
 namespace UrlShortener
 {
@@ -37,9 +45,49 @@ namespace UrlShortener
             {
                 config.SwaggerDoc("v1", new OpenApiInfo { Title = "URLShortener API", Version = "v1" });
             });
+            
+            AddServices(services);
+        }
+
+        private static void AddServices(IServiceCollection services)
+        {
+            services.AddSingleton<ISerializer>(service => new NewtonsoftSerializer(new JsonSerializerSettings
+            {
+                TypeNameHandling = All,
+                NullValueHandling = Include
+            }));
+
+            services.AddSingleton<IRedisCacheClient>(service =>
+            {
+                RedisConfiguration redisConfiguration = new RedisConfiguration()
+                {
+                    AbortOnConnectFail = true,
+                    Hosts = new RedisHost[]
+                    {
+                        new RedisHost
+                                {
+                                    Host = "localhost",
+                                    Port = 6379
+                                }
+                    },
+                    AllowAdmin = true,
+                    Database = 0,
+                    ServerEnumerationStrategy = new ServerEnumerationStrategy()
+                    {
+                        Mode = ServerEnumerationStrategy.ModeOptions.All,
+                        TargetRole = ServerEnumerationStrategy.TargetRoleOptions.Any,
+                        UnreachableServerAction = ServerEnumerationStrategy.UnreachableServerActionOptions.Throw
+                    },
+                    PoolSize = 50
+                };
+
+                IRedisCacheConnectionPoolManager redisCacheConnectionPoolManager = new RedisCacheConnectionPoolManager(redisConfiguration);
+                ISerializer serializer = service.GetRequiredService<ISerializer>();
+                return new RedisCacheClient(redisCacheConnectionPoolManager, serializer, redisConfiguration);
+            });
 
             services.AddSingleton<IUrlService>(service => new UrlService(service.GetRequiredService<IKeyValueStore>()));
-            services.AddSingleton<IKeyValueStore>(new KeyValueStore());
+            services.AddSingleton<IKeyValueStore>(service => new KeyValueStore(service.GetRequiredService<IRedisCacheClient>()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

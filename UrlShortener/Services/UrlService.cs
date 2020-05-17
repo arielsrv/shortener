@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using Base62;
+using System.Threading.Tasks;
 using UrlShortener.Model;
 using UrlShortener.Storage;
 
@@ -24,11 +25,29 @@ namespace UrlShortener.Services
         /// <returns></returns>
         public async Task<CreateUrlResponse> CreateUrl(CreateUrlRequest createUrlRequest)
         {
-            return new CreateUrlResponse
+            Base62Converter converter = new Base62Converter();
+            
+            string key = converter.Encode(createUrlRequest.Url);
+            CreateUrlResponse createUrlResponse = await this.keyValueStore.Get<CreateUrlResponse>(key);
+
+            if (createUrlResponse != null)
             {
-                Id = this.keyValueStore.GetId().ToString(),
-                ShortUrl = createUrlRequest.Url
+                return createUrlResponse;
+            }
+
+            long identifier = await this.keyValueStore.GetId();
+            string segment  = converter.Encode(identifier.ToString());
+
+            createUrlResponse = new CreateUrlResponse
+            {
+                Id = segment,
+                LongUrl = createUrlRequest.Url,
+                ShortUrl = "http://localhost:44332/" + segment
             };
+
+            await this.keyValueStore.Add(key, createUrlResponse);
+
+            return createUrlResponse;
         }
     }
 }

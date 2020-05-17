@@ -23,18 +23,20 @@ namespace UrlShortener.Test.Services
         {
             CreateUrlRequest createUrlRequest = new CreateUrlRequest
             {
-                Url = "www.google.com"
+                Url = "a"
             };
 
             Mock.Get(this.urlService.keyValueStore)
                 .Setup(behavior => behavior.GetId())
-                .Returns(1);
+                .Returns(Task.FromResult(1L));
 
             Task<CreateUrlResponse> awaitable = this.urlService.CreateUrl(createUrlRequest);
 
             CreateUrlResponse createUrlResponse = awaitable.Result;
 
             Assert.NotNull(createUrlResponse);
+            Assert.AreEqual("n", createUrlResponse.Id);
+            Assert.AreEqual("http://localhost:44332/n", createUrlResponse.ShortUrl);
         }
     }
 }
