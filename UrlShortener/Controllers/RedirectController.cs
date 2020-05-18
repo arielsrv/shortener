@@ -32,10 +32,10 @@ namespace UrlShortener.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/{url}")]
-        public async Task<RedirectResult> RedirectTo(string url)
+        public async Task<IActionResult> RedirectTo(string url)
         {
             string longUrl = await this.urlService.GetLongUrl(url);
-            return new RedirectResult(longUrl);
+            return Redirect(longUrl);
         }
     }
 }

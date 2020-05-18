@@ -39,7 +39,7 @@ namespace UrlShortener.Services
             {
                 Id = segment,
                 LongUrl = createUrlRequest.Url,
-                ShortUrl = "http://localhost:44332/" + segment
+                ShortUrl = "https://localhost:44332/" + segment
             };
 
             await this.keyValueStore.Add(segment, createUrlResponse);

@@ -45,8 +45,24 @@ namespace UrlShortener.Test.Services
 
             Assert.NotNull(createUrlResponse);
             Assert.AreEqual("n", createUrlResponse.Id);
-            Assert.AreEqual("http://localhost:44332/n", createUrlResponse.ShortUrl);
+            Assert.AreEqual("https://localhost:44332/n", createUrlResponse.ShortUrl);
             Assert.AreEqual("a", createUrlResponse.LongUrl);
+        }
+
+        [Test]
+        public void Redirect_To_Original_Url()
+        { 
+            Mock.Get(this.urlService.keyValueStore)
+                .Setup(behavior => behavior.Get<CreateUrlResponse>("3HA"))
+                .Returns(Task.FromResult(new CreateUrlResponse{
+                    LongUrl = "https://www.facebook.com" }));
+            
+            Task<string> awaitable = this.urlService.GetLongUrl("3HA");
+
+            string longUrl = awaitable.Result;
+            
+            Assert.NotNull(longUrl);
+            Assert.AreEqual("https://www.facebook.com", longUrl);
         }
     }
 }
