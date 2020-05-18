@@ -189,6 +189,11 @@
             <param name="app">The application.</param>
             <param name="env">The env.</param>
         </member>
+        <member name="T:UrlShortener.Storage.IKeyValueStore">
+            <summary>
+            Key Value Store interface
+            </summary>
+        </member>
         <member name="M:UrlShortener.Storage.IKeyValueStore.GetNewId">
             <summary>
             Gets the identifier.
@@ -211,6 +216,12 @@
             <param name="key">The key.</param>
             <param name="value">The value.</param>
             <returns></returns>
+        </member>
+        <member name="T:UrlShortener.Storage.KeyValueStore">
+            <summary>
+            Key Value Store
+            </summary>
+            <seealso cref="T:UrlShortener.Storage.IKeyValueStore" />
         </member>
         <member name="F:UrlShortener.Storage.KeyValueStore.redisCacheClient">
             <summary>
