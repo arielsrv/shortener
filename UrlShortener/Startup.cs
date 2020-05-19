@@ -13,6 +13,7 @@ using StackExchange.Redis.Extensions.Newtonsoft;
 using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
 using UrlShortener.Services;
 using UrlShortener.Storage;
 using static Newtonsoft.Json.NullValueHandling;
@@ -63,6 +64,8 @@ namespace UrlShortener
         /// <param name="services">The services.</param>
         private void AddServices(IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+            
             services.AddSingleton<ISerializer>(service => new NewtonsoftSerializer(new JsonSerializerSettings
             {
                 TypeNameHandling = All,
@@ -98,7 +101,7 @@ namespace UrlShortener
                 return new RedisCacheClient(redisCacheConnectionPoolManager, serializer, redisConfiguration);
             });
 
-            services.AddSingleton<IUrlService>(service => new UrlService(service.GetRequiredService<IKeyValueStore>()));
+            services.AddSingleton<IUrlService>(service => new UrlService(service.GetRequiredService<IKeyValueStore>(), service.GetRequiredService<IHttpContextAccessor>()));
             services.AddSingleton<IKeyValueStore>(service => new KeyValueStore(service.GetRequiredService<IRedisCacheClient>()));
         }
 

@@ -1,6 +1,7 @@
 ﻿using Base62;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using UrlShortener.Exceptions;
 using UrlShortener.Model;
 using UrlShortener.Storage;
@@ -14,13 +15,19 @@ namespace UrlShortener.Services
         /// </summary>
         public IKeyValueStore keyValueStore;
 
+        public IHttpContextAccessor httpContextAccessor;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UrlService"/> class.
         /// </summary>
         /// <param name="keyValueStore">The key value store.</param>
-        public UrlService(IKeyValueStore keyValueStore)
+        public UrlService(
+            IKeyValueStore keyValueStore,
+            IHttpContextAccessor httpContextAccessor
+            )
         {
             this.keyValueStore = keyValueStore;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
@@ -35,13 +42,18 @@ namespace UrlShortener.Services
             long id = await this.keyValueStore.GetNewId();
             string segment = converter.Encode(id.ToString());
 
+            string host = this.httpContextAccessor.HttpContext.Request.IsHttps
+                ? $"https://{this.httpContextAccessor.HttpContext.Request.Host}"
+                : $"http:/{this.httpContextAccessor.HttpContext.Request.Host}";
+            
             CreateUrlResponse createUrlResponse = new CreateUrlResponse
             {
                 Id = segment,
                 LongUrl = createUrlRequest.Url,
-                ShortUrl = "https://localhost:44332/" + segment
+                ShortUrl = host + segment
             };
 
+            //ShortUrl = "https://localhost:44332/" + segment
             await this.keyValueStore.Add(segment, createUrlResponse);
 
             return createUrlResponse;

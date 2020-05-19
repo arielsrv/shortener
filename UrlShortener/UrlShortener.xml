@@ -135,7 +135,7 @@
             The key value store
             </summary>
         </member>
-        <member name="M:UrlShortener.Services.UrlService.#ctor(UrlShortener.Storage.IKeyValueStore)">
+        <member name="M:UrlShortener.Services.UrlService.#ctor(UrlShortener.Storage.IKeyValueStore,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
             Initializes a new instance of the <see cref="T:UrlShortener.Services.UrlService"/> class.
             </summary>

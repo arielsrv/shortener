@@ -1,6 +1,7 @@
 using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using UrlShortener.Model;
 using UrlShortener.Services;
 using UrlShortener.Storage;
@@ -21,7 +22,8 @@ namespace UrlShortener.Test.Services
         public void SetUp()
         {
             Mock<IKeyValueStore> keyValueStore = new Mock<IKeyValueStore>();
-            this.urlService = new UrlService(keyValueStore.Object);
+            Mock<IHttpContextAccessor> httpContextAccessor = new Mock<IHttpContextAccessor>();
+            this.urlService = new UrlService(keyValueStore.Object, httpContextAccessor.Object);
         }
 
         /// <summary>
@@ -38,6 +40,14 @@ namespace UrlShortener.Test.Services
             Mock.Get(this.urlService.keyValueStore)
                 .Setup(behavior => behavior.GetNewId())
                 .Returns(Task.FromResult(1L));
+            
+            Mock.Get(this.urlService.httpContextAccessor)
+                .Setup(behavior => behavior.HttpContext.Request.Host)
+                .Returns(new HostString("localhost:44332/"));
+            
+            Mock.Get(this.urlService.httpContextAccessor)
+                .Setup(behavior => behavior.HttpContext.Request.IsHttps)
+                .Returns(true);
 
             Task<CreateUrlResponse> awaitable = this.urlService.CreateUrl(createUrlRequest);
 
