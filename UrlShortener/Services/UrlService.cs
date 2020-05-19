@@ -1,6 +1,6 @@
-﻿using Base62;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Base62;
 using Microsoft.AspNetCore.Http;
 using UrlShortener.Exceptions;
 using UrlShortener.Model;
@@ -10,12 +10,12 @@ namespace UrlShortener.Services
 {
     public class UrlService : IUrlService
     {
+        public IHttpContextAccessor httpContextAccessor;
+
         /// <summary>
         /// The key value store
         /// </summary>
         public IKeyValueStore keyValueStore;
-
-        public IHttpContextAccessor httpContextAccessor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UrlService"/> class.
