@@ -44,7 +44,7 @@ namespace UrlShortener
         /// Configures the services.
         /// </summary>
         /// <param name="services">The services.</param>
-        public static void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
@@ -61,7 +61,7 @@ namespace UrlShortener
         /// Adds the services.
         /// </summary>
         /// <param name="services">The services.</param>
-        private static void AddServices(IServiceCollection services)
+        private void AddServices(IServiceCollection services)
         {
             services.AddSingleton<ISerializer>(service => new NewtonsoftSerializer(new JsonSerializerSettings
             {
@@ -78,8 +78,8 @@ namespace UrlShortener
                     {
                         new RedisHost
                                 {
-                                    Host = "localhost",
-                                    Port = 6379
+                                    Host = Configuration["KeyValueStore:host"],
+                                    Port = Convert.ToInt32(Configuration["KeyValueStore:port"])
                                 }
                     },
                     AllowAdmin = true,
