@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Base62;
+﻿using Base62;
 using Microsoft.AspNetCore.Http;
+using System;
+using System.Threading.Tasks;
 using UrlShortener.Exceptions;
 using UrlShortener.Model;
 using UrlShortener.Storage;
@@ -49,14 +49,14 @@ namespace UrlShortener.Services
             string host = this.httpContextAccessor.HttpContext.Request.IsHttps
                 ? $"https://{this.httpContextAccessor.HttpContext.Request.Host}"
                 : $"http:/{this.httpContextAccessor.HttpContext.Request.Host}";
-            
+
             CreateUrlResponse createUrlResponse = new CreateUrlResponse
             {
                 Id = segment,
                 LongUrl = createUrlRequest.Url,
                 ShortUrl = host + segment
             };
-            
+
             await this.keyValueStore.Add(segment, createUrlResponse);
 
             return createUrlResponse;

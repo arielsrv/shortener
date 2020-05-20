@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,6 +11,9 @@ using StackExchange.Redis.Extensions.Core.Abstractions;
 using StackExchange.Redis.Extensions.Core.Configuration;
 using StackExchange.Redis.Extensions.Core.Implementations;
 using StackExchange.Redis.Extensions.Newtonsoft;
+using System;
+using System.IO;
+using System.Reflection;
 using UrlShortener.Services;
 using UrlShortener.Storage;
 using static Newtonsoft.Json.NullValueHandling;
@@ -65,7 +65,7 @@ namespace UrlShortener
         private void AddServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            
+
             services.AddSingleton<ISerializer>(service => new NewtonsoftSerializer(new JsonSerializerSettings
             {
                 TypeNameHandling = All,
@@ -132,7 +132,7 @@ namespace UrlShortener
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
-            {                
+            {
                 endpoints.MapControllers();
             });
         }
