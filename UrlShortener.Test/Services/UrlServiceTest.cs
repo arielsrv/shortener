@@ -59,6 +59,9 @@ namespace UrlShortener.Test.Services
             Assert.AreEqual("a", createUrlResponse.LongUrl);
         }
 
+        /// <summary>
+        /// Redirects to original URL.
+        /// </summary>
         [Test]
         public void Redirect_To_Original_Url()
         { 

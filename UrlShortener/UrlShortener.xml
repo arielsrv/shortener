@@ -130,6 +130,11 @@
             <param name="shortUrl">The short URL.</param>
             <returns></returns>
         </member>
+        <member name="F:UrlShortener.Services.UrlService.httpContextAccessor">
+            <summary>
+            The HTTP context accessor
+            </summary>
+        </member>
         <member name="F:UrlShortener.Services.UrlService.keyValueStore">
             <summary>
             The key value store
@@ -137,9 +142,10 @@
         </member>
         <member name="M:UrlShortener.Services.UrlService.#ctor(UrlShortener.Storage.IKeyValueStore,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
-            Initializes a new instance of the <see cref="T:UrlShortener.Services.UrlService"/> class.
+            Initializes a new instance of the <see cref="T:UrlShortener.Services.UrlService" /> class.
             </summary>
             <param name="keyValueStore">The key value store.</param>
+            <param name="httpContextAccessor">The HTTP context accessor.</param>
         </member>
         <member name="M:UrlShortener.Services.UrlService.CreateUrl(UrlShortener.Model.CreateUrlRequest)">
             <summary>

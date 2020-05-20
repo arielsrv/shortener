@@ -10,6 +10,9 @@ namespace UrlShortener.Services
 {
     public class UrlService : IUrlService
     {
+        /// <summary>
+        /// The HTTP context accessor
+        /// </summary>
         public IHttpContextAccessor httpContextAccessor;
 
         /// <summary>
@@ -18,9 +21,10 @@ namespace UrlShortener.Services
         public IKeyValueStore keyValueStore;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrlService"/> class.
+        /// Initializes a new instance of the <see cref="UrlService" /> class.
         /// </summary>
         /// <param name="keyValueStore">The key value store.</param>
+        /// <param name="httpContextAccessor">The HTTP context accessor.</param>
         public UrlService(
             IKeyValueStore keyValueStore,
             IHttpContextAccessor httpContextAccessor
