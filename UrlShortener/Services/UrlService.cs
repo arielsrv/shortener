@@ -56,8 +56,7 @@ namespace UrlShortener.Services
                 LongUrl = createUrlRequest.Url,
                 ShortUrl = host + segment
             };
-
-            //ShortUrl = "https://localhost:44332/" + segment
+            
             await this.keyValueStore.Add(segment, createUrlResponse);
 
             return createUrlResponse;
