@@ -48,7 +48,7 @@ namespace UrlShortener.Services
 
             string host = this.httpContextAccessor.HttpContext.Request.IsHttps
                 ? $"https://{this.httpContextAccessor.HttpContext.Request.Host}"
-                : $"http:/{this.httpContextAccessor.HttpContext.Request.Host}";
+                : $"http://{this.httpContextAccessor.HttpContext.Request.Host}";
 
             CreateUrlResponse createUrlResponse = new CreateUrlResponse
             {

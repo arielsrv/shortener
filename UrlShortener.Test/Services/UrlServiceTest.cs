@@ -59,6 +59,36 @@ namespace UrlShortener.Test.Services
             Assert.AreEqual("a", createUrlResponse.LongUrl);
         }
 
+        [Test]
+        public void Create_Insecure_Short_Url()
+        {
+            CreateUrlRequest createUrlRequest = new CreateUrlRequest
+            {
+                Url = "a"
+            };
+
+            Mock.Get(this.urlService.keyValueStore)
+                .Setup(behavior => behavior.GetNewId())
+                .Returns(Task.FromResult(1L));
+
+            Mock.Get(this.urlService.httpContextAccessor)
+                .Setup(behavior => behavior.HttpContext.Request.Host)
+                .Returns(new HostString("localhost:44332/"));
+
+            Mock.Get(this.urlService.httpContextAccessor)
+                .Setup(behavior => behavior.HttpContext.Request.IsHttps)
+                .Returns(false);
+
+            Task<CreateUrlResponse> awaitable = this.urlService.CreateUrl(createUrlRequest);
+
+            CreateUrlResponse createUrlResponse = awaitable.Result;
+
+            Assert.NotNull(createUrlResponse);
+            Assert.AreEqual("n", createUrlResponse.Id);
+            Assert.AreEqual("http://localhost:44332/n", createUrlResponse.ShortUrl);
+            Assert.AreEqual("a", createUrlResponse.LongUrl);
+        }
+
         /// <summary>
         /// Redirects to original URL.
         /// </summary>
