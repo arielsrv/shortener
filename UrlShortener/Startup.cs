@@ -14,6 +14,7 @@ using StackExchange.Redis.Extensions.Newtonsoft;
 using System;
 using System.IO;
 using System.Reflection;
+using UrlShortener.Exceptions;
 using UrlShortener.Services;
 using UrlShortener.Storage;
 using static Newtonsoft.Json.NullValueHandling;
@@ -103,6 +104,8 @@ namespace UrlShortener
 
             services.AddSingleton<IUrlService>(service => new UrlService(service.GetRequiredService<IKeyValueStore>(), service.GetRequiredService<IHttpContextAccessor>()));
             services.AddSingleton<IKeyValueStore>(service => new KeyValueStore(service.GetRequiredService<IRedisCacheClient>()));
+
+            services.AddControllers(options => options.Filters.Add(new HttpResponseExceptionFilter()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

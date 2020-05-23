@@ -1,7 +1,8 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Threading.Tasks;
 using UrlShortener.Model;
 using UrlShortener.Services;
 using UrlShortener.Storage;
@@ -40,11 +41,11 @@ namespace UrlShortener.Test.Services
             Mock.Get(this.urlService.keyValueStore)
                 .Setup(behavior => behavior.GetNewId())
                 .Returns(Task.FromResult(1L));
-            
+
             Mock.Get(this.urlService.httpContextAccessor)
                 .Setup(behavior => behavior.HttpContext.Request.Host)
                 .Returns(new HostString("localhost:44332/"));
-            
+
             Mock.Get(this.urlService.httpContextAccessor)
                 .Setup(behavior => behavior.HttpContext.Request.IsHttps)
                 .Returns(true);
@@ -94,18 +95,39 @@ namespace UrlShortener.Test.Services
         /// </summary>
         [Test]
         public void Redirect_To_Original_Url()
-        { 
+        {
             Mock.Get(this.urlService.keyValueStore)
                 .Setup(behavior => behavior.Get<CreateUrlResponse>("3HA"))
-                .Returns(Task.FromResult(new CreateUrlResponse{
-                    LongUrl = "https://www.facebook.com" }));
-            
+                .Returns(Task.FromResult(new CreateUrlResponse
+                {
+                    LongUrl = "https://www.facebook.com"
+                }));
+
             Task<string> awaitable = this.urlService.GetLongUrl("3HA");
 
             string longUrl = awaitable.Result;
-            
+
             Assert.NotNull(longUrl);
             Assert.AreEqual("https://www.facebook.com", longUrl);
+        }
+
+        [Test]
+        public void Redirect_To_Original_Url_Not_Found()
+        {
+            Mock.Get(this.urlService.keyValueStore)
+                .Setup(behavior => behavior.Get<CreateUrlResponse>("3HA"))
+                .Returns(Task.FromResult(default(CreateUrlResponse)));
+
+            Task<string> awaitable = this.urlService.GetLongUrl("3HA");
+
+            try
+            {
+                string longUrl = awaitable.Result;
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual("Url 3HA not found", e.InnerException.Message);
+            }
         }
     }
 }

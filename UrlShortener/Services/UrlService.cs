@@ -74,7 +74,7 @@ namespace UrlShortener.Services
 
             if (createUrlResponse == null)
             {
-                throw new ApiNotFoundException(shortUrl);
+                throw new ApiNotFoundException($"Url {shortUrl} not found" );
             }
 
             return createUrlResponse.LongUrl;
