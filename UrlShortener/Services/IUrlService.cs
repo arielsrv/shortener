@@ -3,6 +3,9 @@ using UrlShortener.Model;
 
 namespace UrlShortener.Services
 {
+    /// <summary>
+    /// Interface
+    /// </summary>
     public interface IUrlService
     {
         /// <summary>

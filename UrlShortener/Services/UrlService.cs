@@ -9,6 +9,10 @@ using UrlShortener.Storage;
 
 namespace UrlShortener.Services
 {
+    /// <summary>
+    /// Url Service
+    /// </summary>
+    /// <seealso cref="UrlShortener.Services.IUrlService" />
     public class UrlService : IUrlService
     {
         /// <summary>
@@ -59,6 +63,10 @@ namespace UrlShortener.Services
             return createUrlResponse;
         }
 
+        /// <summary>
+        /// Gets the host.
+        /// </summary>
+        /// <returns></returns>
         private string GetHost()
         {
             string host = this.httpContextAccessor.HttpContext.Request.IsHttps
@@ -85,8 +93,7 @@ namespace UrlShortener.Services
                 throw new ApiNotFoundException($"Url {shortUrl} not found");
             }
 
-            GetUrlResponse getUrlResponse = GetUrlResponse
-                .Create(createUrlResponse.LongUrl);
+            GetUrlResponse getUrlResponse = GetUrlResponse.Create(createUrlResponse.LongUrl);
 
             return getUrlResponse;
         }

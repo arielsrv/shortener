@@ -22,6 +22,9 @@ using static Newtonsoft.Json.TypeNameHandling;
 
 namespace UrlShortener
 {
+    /// <summary>
+    /// Startup
+    /// </summary>
     public class Startup
     {
         /// <summary>
