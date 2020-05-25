@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace UrlShortener.Exceptions
 {
