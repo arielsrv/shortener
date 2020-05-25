@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
 using UrlShortener.Exceptions;
+using UrlShortener.Helpers;
 using UrlShortener.Model;
 using UrlShortener.Storage;
 
@@ -41,25 +42,30 @@ namespace UrlShortener.Services
         /// <returns></returns>
         public async Task<CreateUrlResponse> CreateUrl(CreateUrlRequest createUrlRequest)
         {
+            Ensure.NotNullOrEmpty(createUrlRequest.Url, "url params can't be null");
+            
             Base62Converter converter = new Base62Converter();
 
             long id = await this.keyValueStore.GetNewId();
             string segment = converter.Encode(id.ToString());
 
-            string host = this.httpContextAccessor.HttpContext.Request.IsHttps
-                ? $"https://{this.httpContextAccessor.HttpContext.Request.Host}"
-                : $"http://{this.httpContextAccessor.HttpContext.Request.Host}";
+            string host = GetHost();
 
-            CreateUrlResponse createUrlResponse = new CreateUrlResponse
-            {
-                Id = segment,
-                LongUrl = createUrlRequest.Url,
-                ShortUrl = host + segment
-            };
+            CreateUrlResponse createUrlResponse = CreateUrlResponse
+                .Create(segment,  $"{host}/{segment}", createUrlRequest.Url);
 
             await this.keyValueStore.Add(segment, createUrlResponse);
 
             return createUrlResponse;
+        }
+
+        private string GetHost()
+        {
+            string host = this.httpContextAccessor.HttpContext.Request.IsHttps
+                ? $"https://{this.httpContextAccessor.HttpContext.Request.Host}"
+                : $"http://{this.httpContextAccessor.HttpContext.Request.Host}";
+            
+            return host;
         }
 
         /// <summary>
@@ -68,16 +74,21 @@ namespace UrlShortener.Services
         /// <param name="shortUrl"></param>
         /// <returns></returns>
         /// <exception cref="ApplicationException"></exception>
-        public async Task<string> GetLongUrl(string shortUrl)
+        public async Task<GetUrlResponse> GetLongUrl(string shortUrl)
         {
+            Ensure.NotNullOrEmpty(shortUrl, "url can't be null");
+            
             CreateUrlResponse createUrlResponse = await this.keyValueStore.Get<CreateUrlResponse>(shortUrl);
 
             if (createUrlResponse == null)
             {
-                throw new ApiNotFoundException($"Url {shortUrl} not found" );
+                throw new ApiNotFoundException($"Url {shortUrl} not found");
             }
 
-            return createUrlResponse.LongUrl;
+            GetUrlResponse getUrlResponse = GetUrlResponse
+                .Create(createUrlResponse.LongUrl);
+
+            return getUrlResponse;
         }
     }
 }

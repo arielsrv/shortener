@@ -18,6 +18,6 @@ namespace UrlShortener.Services
         /// </summary>
         /// <param name="shortUrl">The short URL.</param>
         /// <returns></returns>
-        Task<string> GetLongUrl(string shortUrl);
+        Task<GetUrlResponse> GetLongUrl(string shortUrl);
     }
 }

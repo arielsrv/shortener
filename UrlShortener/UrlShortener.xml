@@ -4,30 +4,6 @@
         <name>UrlShortener</name>
     </assembly>
     <members>
-        <member name="T:UrlShortener.Controllers.RedirectController">
-            <summary>
-            Redirect to Original Url.
-            </summary>
-            <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
-        </member>
-        <member name="F:UrlShortener.Controllers.RedirectController.urlService">
-            <summary>
-            The URL service
-            </summary>
-        </member>
-        <member name="M:UrlShortener.Controllers.RedirectController.#ctor(UrlShortener.Services.IUrlService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:UrlShortener.Controllers.UrlController"/> class.
-            </summary>
-            <param name="urlService">The URL service.</param>
-        </member>
-        <member name="M:UrlShortener.Controllers.RedirectController.RedirectTo(System.String)">
-            <summary>
-            Redirects to.
-            </summary>
-            <param name="url">The URL.</param>
-            <returns></returns>
-        </member>
         <member name="T:UrlShortener.Controllers.UrlController">
             <summary>
             Create Url  
@@ -52,6 +28,13 @@
             <param name="createUrlRequest">The create URL request.</param>
             <returns></returns>
         </member>
+        <member name="M:UrlShortener.Controllers.UrlController.GetUrl(System.String)">
+            <summary>
+            Redirects to.
+            </summary>
+            <param name="url">The URL.</param>
+            <returns></returns>
+        </member>
         <member name="T:UrlShortener.Exceptions.ApiNotFoundException">
             <summary>
             Not Found
@@ -64,54 +47,10 @@
             </summary>
             <param name="message">A message that describes the error.</param>
         </member>
-        <member name="M:UrlShortener.Exceptions.ApiNotFoundException.#ctor(System.String,System.Exception)">
+        <member name="T:UrlShortener.Exceptions.Error">
             <summary>
-            Initializes a new instance of the <see cref="T:UrlShortener.Exceptions.ApiNotFoundException"/> class.
+            The error
             </summary>
-            <param name="message">The error message that explains the reason for the exception.</param>
-            <param name="innerException">The exception that is the cause of the current exception. If the <paramref name="innerException" /> parameter is not a null reference, the current exception is raised in a <see langword="catch" /> block that handles the inner exception.</param>
-        </member>
-        <member name="P:UrlShortener.Exceptions.HttpResponseExceptionFilter.Order">
-            <summary>
-            Gets the order value for determining the order of execution of filters. Filters execute in
-            ascending numeric value of the <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" /> property.
-            </summary>
-            <remarks>
-            <para>
-            Filters are executed in an ordering determined by an ascending sort of the <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" /> property.
-            </para>
-            <para>
-            Asynchronous filters, such as <see cref="T:Microsoft.AspNetCore.Mvc.Filters.IAsyncActionFilter" />, surround the execution of subsequent
-            filters of the same filter kind. An asynchronous filter with a lower numeric <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />
-            value will have its filter method, such as <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IAsyncActionFilter.OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)" />,
-            executed before that of a filter with a higher value of <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />.
-            </para>
-            <para>
-            Synchronous filters, such as <see cref="T:Microsoft.AspNetCore.Mvc.Filters.IActionFilter" />, have a before-method, such as
-            <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)" />, and an after-method, such as
-            <see cref="M:Microsoft.AspNetCore.Mvc.Filters.IActionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)" />. A synchronous filter with a lower numeric <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />
-            value will have its before-method executed before that of a filter with a higher value of
-            <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />. During the after-stage of the filter, a synchronous filter with a lower
-            numeric <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" /> value will have its after-method executed after that of a filter with a higher
-            value of <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />.
-            </para>
-            <para>
-            If two filters have the same numeric value of <see cref="P:Microsoft.AspNetCore.Mvc.Filters.IOrderedFilter.Order" />, then their relative execution order
-            is determined by the filter scope.
-            </para>
-            </remarks>
-        </member>
-        <member name="M:UrlShortener.Exceptions.HttpResponseExceptionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
-            <summary>
-            Called before the action executes, after model binding is complete.
-            </summary>
-            <param name="context">The <see cref="T:Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext" />.</param>
-        </member>
-        <member name="M:UrlShortener.Exceptions.HttpResponseExceptionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
-            <summary>
-            Called after the action executes, before the action result.
-            </summary>
-            <param name="context">The <see cref="T:Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext" />.</param>
         </member>
         <member name="P:UrlShortener.Exceptions.Error.Code">
             <summary>
@@ -128,6 +67,18 @@
             <value>
             The message.
             </value>
+        </member>
+        <member name="M:UrlShortener.Exceptions.HttpResponseExceptionFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            Called before the action executes, after model binding is complete.
+            </summary>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext" />.</param>
+        </member>
+        <member name="M:UrlShortener.Exceptions.HttpResponseExceptionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            Called after the action executes, before the action result.
+            </summary>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext" />.</param>
         </member>
         <member name="P:UrlShortener.Model.CreateUrlRequest.Url">
             <summary>

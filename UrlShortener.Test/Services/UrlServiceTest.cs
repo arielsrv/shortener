@@ -3,6 +3,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
+using UrlShortener.Exceptions;
 using UrlShortener.Model;
 using UrlShortener.Services;
 using UrlShortener.Storage;
@@ -44,7 +45,7 @@ namespace UrlShortener.Test.Services
 
             Mock.Get(this.urlService.httpContextAccessor)
                 .Setup(behavior => behavior.HttpContext.Request.Host)
-                .Returns(new HostString("localhost:44332/"));
+                .Returns(new HostString("localhost:44332"));
 
             Mock.Get(this.urlService.httpContextAccessor)
                 .Setup(behavior => behavior.HttpContext.Request.IsHttps)
@@ -74,7 +75,7 @@ namespace UrlShortener.Test.Services
 
             Mock.Get(this.urlService.httpContextAccessor)
                 .Setup(behavior => behavior.HttpContext.Request.Host)
-                .Returns(new HostString("localhost:44332/"));
+                .Returns(new HostString("localhost:44332"));
 
             Mock.Get(this.urlService.httpContextAccessor)
                 .Setup(behavior => behavior.HttpContext.Request.IsHttps)
@@ -103,12 +104,13 @@ namespace UrlShortener.Test.Services
                     LongUrl = "https://www.facebook.com"
                 }));
 
-            Task<string> awaitable = this.urlService.GetLongUrl("3HA");
+            Task<GetUrlResponse> awaitable = this.urlService.GetLongUrl("3HA");
 
-            string longUrl = awaitable.Result;
+            GetUrlResponse getUrlResponse = awaitable.Result;
 
-            Assert.NotNull(longUrl);
-            Assert.AreEqual("https://www.facebook.com", longUrl);
+            Assert.NotNull(getUrlResponse);
+            Assert.NotNull(getUrlResponse.Url);
+            Assert.AreEqual("https://www.facebook.com", getUrlResponse.Url);
         }
 
         [Test]
@@ -118,15 +120,32 @@ namespace UrlShortener.Test.Services
                 .Setup(behavior => behavior.Get<CreateUrlResponse>("3HA"))
                 .Returns(Task.FromResult(default(CreateUrlResponse)));
 
-            Task<string> awaitable = this.urlService.GetLongUrl("3HA");
+            Task<GetUrlResponse> awaitable = this.urlService.GetLongUrl("3HA");
 
             try
             {
-                string longUrl = awaitable.Result;
+                GetUrlResponse getUrlResponse = awaitable.Result;
             }
             catch (Exception e)
             {
+                Assert.AreEqual(typeof(ApiNotFoundException), e.InnerException.GetType());
                 Assert.AreEqual("Url 3HA not found", e.InnerException.Message);
+            }
+        }
+        
+        [Test]
+        public void Redirect_To_Original_Url_Bad_Request()
+        {
+            Task<GetUrlResponse> awaitable = this.urlService.GetLongUrl(null);
+
+            try
+            {
+                GetUrlResponse getUrlResponse = awaitable.Result;
+            }
+            catch (Exception e)
+            {
+                Assert.AreEqual(typeof(ApiBadRequestException), e.InnerException.GetType());
+                Assert.AreEqual("url can't be null", e.InnerException.Message);
             }
         }
     }

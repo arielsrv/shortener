@@ -137,6 +137,9 @@ namespace UrlShortener
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    "default",
+                    "{controller}/{action}/{url}");
             });
         }
     }

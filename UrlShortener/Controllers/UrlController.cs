@@ -38,5 +38,17 @@ namespace UrlShortener.Controllers
         {            
             return await this.urlService.CreateUrl(createUrlRequest);
         }
+        
+        /// <summary>
+        /// Redirects to.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("{url}")]
+        public async Task<ActionResult<GetUrlResponse>> GetUrl(string url)
+        {
+            return await this.urlService.GetLongUrl(url);
+        }
     }
 }
