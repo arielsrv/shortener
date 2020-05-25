@@ -123,6 +123,13 @@
             </summary>
             <param name="context">The <see cref="T:Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext" />.</param>
         </member>
+        <member name="M:UrlShortener.Exceptions.HttpResponseExceptionFilter.BuildError(System.Net.HttpStatusCode,Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            Builds the error.
+            </summary>
+            <param name="statusCode">The status code.</param>
+            <param name="context">The context.</param>
+        </member>
         <member name="M:UrlShortener.Exceptions.HttpResponseExceptionFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
             <summary>
             Called after the action executes, before the action result.

@@ -47,7 +47,12 @@ namespace UrlShortener.Exceptions
         /// <param name="context">The <see cref="T:Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext" />.</param>
         public void OnActionExecuting(ActionExecutingContext context) { }
 
-        private void BuildError(HttpStatusCode statusCode, ActionExecutedContext context)
+        /// <summary>
+        /// Builds the error.
+        /// </summary>
+        /// <param name="statusCode">The status code.</param>
+        /// <param name="context">The context.</param>
+        private static void BuildError(HttpStatusCode statusCode, ActionExecutedContext context)
         {
             Error error = new Error
             {
