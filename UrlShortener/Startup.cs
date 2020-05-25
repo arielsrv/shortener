@@ -17,8 +17,6 @@ using System.Reflection;
 using UrlShortener.Exceptions;
 using UrlShortener.Services;
 using UrlShortener.Storage;
-using static Newtonsoft.Json.NullValueHandling;
-using static Newtonsoft.Json.TypeNameHandling;
 
 namespace UrlShortener
 {
@@ -72,8 +70,8 @@ namespace UrlShortener
 
             services.AddSingleton<ISerializer>(service => new NewtonsoftSerializer(new JsonSerializerSettings
             {
-                TypeNameHandling = All,
-                NullValueHandling = Include
+                TypeNameHandling = TypeNameHandling.All,
+                NullValueHandling = NullValueHandling.Include
             }));
 
             services.AddSingleton<IRedisCacheClient>(service =>

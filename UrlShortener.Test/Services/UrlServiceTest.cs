@@ -132,7 +132,7 @@ namespace UrlShortener.Test.Services
                 Assert.AreEqual("Url 3HA not found", e.InnerException.Message);
             }
         }
-        
+
         [Test]
         public void Redirect_To_Original_Url_Bad_Request()
         {

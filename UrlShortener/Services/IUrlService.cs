@@ -15,7 +15,6 @@ namespace UrlShortener.Services
         /// <returns></returns>
         Task<CreateUrlResponse> CreateUrl(CreateUrlRequest createUrlRequest);
 
-
         /// <summary>
         /// Gets the long URL.
         /// </summary>

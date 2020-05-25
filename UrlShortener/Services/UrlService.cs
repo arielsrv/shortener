@@ -47,7 +47,7 @@ namespace UrlShortener.Services
         public async Task<CreateUrlResponse> CreateUrl(CreateUrlRequest createUrlRequest)
         {
             Ensure.NotNullOrEmpty(createUrlRequest.Url, "url params can't be null");
-            
+
             Base62Converter converter = new Base62Converter();
 
             long id = await this.keyValueStore.GetNewId();
@@ -56,7 +56,7 @@ namespace UrlShortener.Services
             string host = GetHost();
 
             CreateUrlResponse createUrlResponse = CreateUrlResponse
-                .Create(segment,  $"{host}/{segment}", createUrlRequest.Url);
+                .Create(segment, $"{host}/{segment}", createUrlRequest.Url);
 
             await this.keyValueStore.Add(segment, createUrlResponse);
 
@@ -72,7 +72,7 @@ namespace UrlShortener.Services
             string host = this.httpContextAccessor.HttpContext.Request.IsHttps
                 ? $"https://{this.httpContextAccessor.HttpContext.Request.Host}"
                 : $"http://{this.httpContextAccessor.HttpContext.Request.Host}";
-            
+
             return host;
         }
 
@@ -85,7 +85,7 @@ namespace UrlShortener.Services
         public async Task<GetUrlResponse> GetLongUrl(string shortUrl)
         {
             Ensure.NotNullOrEmpty(shortUrl, "url can't be null");
-            
+
             CreateUrlResponse createUrlResponse = await this.keyValueStore.Get<CreateUrlResponse>(shortUrl);
 
             if (createUrlResponse == null)

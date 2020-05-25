@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using UrlShortener.Model;
 using UrlShortener.Services;
 
 namespace UrlShortener.Controllers
 {
     /// <summary>
-    /// Create Url  
+    /// Create Url
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [ApiController]
@@ -34,10 +34,10 @@ namespace UrlShortener.Controllers
         /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<CreateUrlResponse>> CreateUrl([FromBody] CreateUrlRequest createUrlRequest)
-        {            
+        {
             return await this.urlService.CreateUrl(createUrlRequest);
         }
-        
+
         /// <summary>
         /// Redirects to.
         /// </summary>

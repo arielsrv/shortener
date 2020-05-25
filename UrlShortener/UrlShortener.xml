@@ -6,7 +6,7 @@
     <members>
         <member name="T:UrlShortener.Controllers.UrlController">
             <summary>
-            Create Url  
+            Create Url
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
@@ -256,6 +256,11 @@
             <param name="shortUrl"></param>
             <returns></returns>
             <exception cref="T:System.ApplicationException"></exception>
+        </member>
+        <member name="T:UrlShortener.Startup">
+            <summary>
+            Startup
+            </summary>
         </member>
         <member name="M:UrlShortener.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>

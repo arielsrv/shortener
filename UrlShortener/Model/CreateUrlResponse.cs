@@ -33,14 +33,14 @@ namespace UrlShortener.Model
             Ensure.NotNullOrEmpty(id, "id can't be null");
             Ensure.NotNullOrEmpty(shortUrl, "shortUrl can't be null");
             Ensure.NotNullOrEmpty(longUrl, "longUrl can't be null");
-            
+
             CreateUrlResponse createUrlResponse = new CreateUrlResponse
             {
                 Id = id,
                 ShortUrl = shortUrl,
                 LongUrl = longUrl
             };
-            
+
             return createUrlResponse;
         }
     }

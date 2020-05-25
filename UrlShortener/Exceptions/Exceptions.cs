@@ -51,7 +51,7 @@ namespace UrlShortener.Exceptions
         {
             Error error = new Error
             {
-                Code = (int) statusCode,
+                Code = (int)statusCode,
                 Message = $"{statusCode}. {context.Exception.Message}"
             };
 
@@ -60,7 +60,7 @@ namespace UrlShortener.Exceptions
                 StatusCode = error.Code
             };
         }
-        
+
         /// <summary>
         /// Called after the action executes, before the action result.
         /// </summary>

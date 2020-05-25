@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using StackExchange.Redis.Extensions.Core.Abstractions;
+﻿using StackExchange.Redis.Extensions.Core.Abstractions;
+using System.Threading.Tasks;
 
 namespace UrlShortener.Storage
 {
@@ -48,7 +48,6 @@ namespace UrlShortener.Storage
                 .GetDbFromConfiguration()
                 .GetAsync<T>(key);
         }
-
 
         /// <summary>
         /// Gets the identifier.
